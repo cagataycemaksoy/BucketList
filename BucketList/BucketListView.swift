@@ -17,15 +17,21 @@ struct BucketListView: View {
     NavigationStack {
       List {
         ForEach(goals) { goal in
-          Text(goal.title)
-            .font(.title2)
+          NavigationLink {
+            DetailView(goal: goal)
+          } label: {
+            Text(goal.title)
+              .font(.title2)
+          }
+
         }
       }
       .listStyle(.plain)
       .navigationTitle("Bucket List:")
       .sheet(isPresented: $isSheetPresented) {
-        let newGoal = Goal(title: "", notes: "", completed: false, completedOn: .now)
-        DetailView(goal: newGoal)
+        NavigationStack {
+          DetailView(goal: Goal())
+        }
       }
       .toolbar {
         ToolbarItem(placement: .confirmationAction) {
