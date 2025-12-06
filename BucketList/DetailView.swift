@@ -55,12 +55,36 @@ struct DetailView: View {
         isCompleted = goal.completed
         completedOn = goal.completedOn
       }
+      .navigationBarBackButtonHidden()
+      .toolbar {
+        ToolbarItem(placement: .cancellationAction) {
+          Button("Cancel", systemImage: "xmark") {
+            dismiss()
+          }
+        }
+        ToolbarItem(placement: .confirmationAction) {
+          Button("Save", systemImage: "checkmark") {
+            goal.title = title
+            goal.notes = notes
+            goal.completed = isCompleted
+            goal.completedOn = completedOn
+            modelContext.insert(goal)
+            guard let _ = try? modelContext.save() else {
+              print("Failed to save data")
+              return
+            }
+            dismiss()
+          }
+        }
+      }
      
       Spacer()
     }
 }
 
 #Preview {
-    DetailView(goal: Goal(title: "Hike the Great Wall", notes: "Maybe during study abroad", completed: true))
-    .modelContainer(for: Goal.self, inMemory: true)
+    NavigationStack {
+      DetailView(goal: Goal(title: "Hike the Great Wall", notes: "Maybe during study abroad", completed: true))
+      .modelContainer(for: Goal.self, inMemory: true)
+    }
 }

@@ -24,14 +24,13 @@ struct BucketListView: View {
       .listStyle(.plain)
       .navigationTitle("Bucket List:")
       .sheet(isPresented: $isSheetPresented) {
-        Text("Hello World!!!")
+        let newGoal = Goal(title: "", notes: "", completed: false, completedOn: .now)
+        DetailView(goal: newGoal)
       }
       .toolbar {
-        ToolbarItem(placement: .topBarTrailing) {
-          Button {
+        ToolbarItem(placement: .confirmationAction) {
+          Button("Add", systemImage: "plus") {
             isSheetPresented = true
-          } label: {
-            Image(systemName: "plus")
           }
         }
       }
