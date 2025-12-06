@@ -9,15 +9,34 @@ import SwiftUI
 import SwiftData
 
 struct BucketListView: View {
-    var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+  @Query private var goals: [Goal]
+  @State private var isSheetPresented = false
+  @Environment(\.modelContext) private var modelContext
+  
+  var body: some View {
+    NavigationStack {
+      List {
+        ForEach(goals) { goal in
+          Text(goal.title)
+            .font(.title2)
         }
-        .padding()
+      }
+      .listStyle(.plain)
+      .navigationTitle("Bucket List:")
+      .sheet(isPresented: $isSheetPresented) {
+        Text("Hello World!!!")
+      }
+      .toolbar {
+        ToolbarItem(placement: .topBarTrailing) {
+          Button {
+            isSheetPresented = true
+          } label: {
+            Image(systemName: "plus")
+          }
+        }
+      }
     }
+  }
 }
 
 #Preview {
