@@ -48,7 +48,6 @@ struct DetailView: View {
         
       }
       .font(.title2)
-      .listStyle(.plain)
       .padding(.horizontal, 20)
       .onAppear {
         title = goal.title
