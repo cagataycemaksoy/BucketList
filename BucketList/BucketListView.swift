@@ -1,13 +1,14 @@
 //
-//  ContentView.swift
+//  BucketListView.swift
 //  BucketList
 //
 //  Created by Cem Aksoy on 5.12.2025.
 //
 
 import SwiftUI
+import SwiftData
 
-struct ContentView: View {
+struct BucketListView: View {
     var body: some View {
         VStack {
             Image(systemName: "globe")
@@ -20,5 +21,6 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    BucketListView()
+    .modelContainer(Goal.preview)
 }
