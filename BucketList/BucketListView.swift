@@ -9,32 +9,22 @@ import SwiftUI
 import SwiftData
 
 struct BucketListView: View {
-  @Query private var goals: [Goal]
   @State private var isSheetPresented = false
-  @Environment(\.modelContext) private var modelContext
+  @State private var selectedSegment: Segments = .all
+  
   
   var body: some View {
     NavigationStack {
-      List {
-        ForEach(goals) { goal in
-          NavigationLink {
-            DetailView(goal: goal)
-          } label: {
-            Text(goal.title)
-              .font(.title2)
-          }
-          .swipeActions {
-            Button("", systemImage: "trash", role: .destructive) {
-              modelContext.delete(goal)
-              guard let _ = try? modelContext.save() else {
-                print("😡 Failed to delete the element!")
-                return
-              }
-            }
+      VStack(spacing: 20) {
+        Picker("", selection: $selectedSegment) {
+          ForEach(Segments.allCases, id: \.self) { segment in
+            Text(segment.rawValue)
           }
         }
+        .pickerStyle(.segmented)
+        SelectedListView(selectedSegment: selectedSegment)
       }
-      .listStyle(.plain)
+      .padding(.horizontal)
       .navigationTitle("Bucket List:")
       .sheet(isPresented: $isSheetPresented) {
         NavigationStack {
