@@ -23,7 +23,15 @@ struct BucketListView: View {
             Text(goal.title)
               .font(.title2)
           }
-
+          .swipeActions {
+            Button("", systemImage: "trash", role: .destructive) {
+              modelContext.delete(goal)
+              guard let _ = try? modelContext.save() else {
+                print("😡 Failed to delete the element!")
+                return
+              }
+            }
+          }
         }
       }
       .listStyle(.plain)
